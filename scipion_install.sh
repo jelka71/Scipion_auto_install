@@ -15,6 +15,12 @@ CUDA_PATH=/usr/local/cuda-11.7 # PATH to CUDA installation
 MPI_PATH=opt/bioxray/programs/openmpi_4.0.3 # PATH to MPI installation
 OPENCV=False # True or FALSE
 
+# EM plugins to install
+EM_PLUGINS="xmipp appion aretomo ccp4 chimera cistem cryodrgn cryosparc2 eman2 fsc3d gautomatch gctf localrec motioncorr relion resmap sphire susantomo tomowin topaz"
+
+# TOMO DEVEL PLUGINS to install 
+TOMO_PLUGINS="tomo imod tomoviz dynamo novactf xmipptomo pyseg emantomo reliontomo tomosegmemtv tomo3d aretomo deepfinder cryocare tomotwin susantomo"
+
 #############
 # stop edit #
 #############
@@ -39,9 +45,6 @@ ${SCIPION_HOME}/scipion3 config --overwrite
 mkdir ${SCIPION_HOME}/plugins
 cd ${SCIPION_HOME}/plugins
 
-# EM plugins to install
-
-EM_PLUGINS="xmipp appion aretomo ccp4 chimera cistem cryodrgn cryosparc2 eman2 fsc3d gautomatch gctf localrec motioncorr relion resmap sphire susantomo tomowin topaz"
 
 # upgrade or install EM plugins
 
@@ -51,10 +54,8 @@ for PACK in ${EM_PLUGINS}; do
     scipion3 installp -p scipion-em-${PACK} -j $NPROC
 done
 
+# end of EM plugin install
 
-# TOMO DEVEL PLUGINS to install 
-
-TOMO_PLUGINS="tomo imod tomoviz dynamo novactf xmipptomo pyseg emantomo reliontomo tomosegmemtv tomo3d aretomo deepfinder cryocare tomotwin susantomo"
 
 # upgrade or install TOMO plugins
 
@@ -72,6 +73,8 @@ for TOMOPACK in ${TOMO_PLUGINS}; do
     fi
     scipion3 installp -p scipion-em-${TOMOPACK} -j $NPROC --devel
 done
+
+# end of TOMO plugin install
 
 cat<<EOF >> ${SCIPION_HOME}/config/scipion.conf
 CUDA = ${CUDA}
